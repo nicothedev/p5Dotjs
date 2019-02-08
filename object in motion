@@ -1,0 +1,67 @@
+//takes an initial velocity and angle and uses kinematic equations/trig functions to figure out
+//the position of an object with respect to time.
+xStartingPosition = 30;
+yStartingPosition = 500;
+var inputVelocity =90;
+var inputAngle = degreesToRadians(80);
+var time =0;
+
+function setup() {
+  createCanvas(600, 600);
+	
+}
+function draw() {
+  background(50);
+	  objectMotion(90,80,time);
+	if(time<totalTime(inputVelocity)){
+			time+=.05;
+		 }else{
+			 time=0;
+		 }
+}
+function totalTime(velocity){
+	
+	return (-2*velocity)/(-9.8);
+}
+function finalX(velocity,angle, time){
+	velocityX = velocity*cos(angle);
+	return velocityX*time;
+}
+function finalY(velocity, angle, time){
+	velocityY = velocity*sin(angle);
+	return (velocityY*time)+(.5*-9.8*time*time);
+}
+function degreesToRadians(degrees){
+	return degrees*(3.14159265358979/180);
+}
+function radiansToDegrees(radians){
+	return radians*(180/3.14159265358979);
+}
+function objectMotionGraph(inputVelocity,angle){
+	
+	var inputAngle = degreesToRadians(angle);
+	for(i = 0; i<totalTime(inputVelocity);i+=.1){
+		var x =	finalX(inputVelocity, inputAngle, i)+xStartingPosition;
+		var y = -finalY(inputVelocity, inputAngle, i)+yStartingPosition;
+		if(y-yStartingPosition<=0){
+			ellipse(x,y,10,10);
+		}else{
+			console.log("With the initial velocity of " +inputVelocity+"m/s and angle of "
+			+radiansToDegrees(inputAngle)+ " degrees \n the object has reached a distance of "
+			+Math.round(x)+" meters.");
+			
+			console.log("The maximum height that the object reached was "
+			+Math.round(finalY(inputVelocity, inputAngle, totalTime(inputVelocity)/2))+" meters");
+		}
+	}
+}
+function objectMotion(inputVelocity, angle, time){
+	var inputAngle = degreesToRadians(angle);
+	var x =	finalX(inputVelocity, inputAngle, time)+xStartingPosition;
+		var y = -finalY(inputVelocity, inputAngle, time)+yStartingPosition;
+		if(y-yStartingPosition<=0){//restricts the movement going past the intial starting height
+			ellipse(x,y,30,30);
+		}
+	
+}
+
